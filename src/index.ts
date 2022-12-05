@@ -10,6 +10,7 @@ observable.subscribe(
     (error: any) => logItem('Error: ' + error),
     () => logItem('Completed')
 );
+logItem("Fin");
 function logItem(val: any) {
     var node = document.createElement("li");
     var textnode = document.createTextNode(val);
