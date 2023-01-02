@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Challenge } from './challenge';
 import { InputreaderService } from './inputreader.service';
 
 @Component({
@@ -10,16 +11,18 @@ import { InputreaderService } from './inputreader.service';
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'adventofcode2022';
   data: string = "";
+  challenges: Challenge[] = [];
 
   constructor(private inputReaderService: InputreaderService) {
-
+    for (let i = 1; i <= 25; i++) {
+      this.challenges.push(new Challenge());
+    }
   }
 
   ngOnInit(): void {
     console.log("ngOnitInit()");
     this.inputReaderService.read(1)
-      .subscribe(res => { console.log("end of http call" + (res)); this.data = res; }, err => { console.log('error', err); });;
-    console.log("data=", this.data);
+      .subscribe(res => { this.data = res; }, err => { console.log('error', err); });;
   }
 
   ngAfterViewInit(): void {

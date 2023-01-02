@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 
 import { InputreaderService } from './inputreader.service';
+import { Elf } from './elf';
+import { Challenge } from './challenge';
 
 describe('InputreaderService', () => {
   let service: InputreaderService;
@@ -18,6 +20,8 @@ describe('InputreaderService', () => {
     httpClient = TestBed.inject(HttpClient);
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(InputreaderService);
+    Elf.order = 1;
+    Challenge.order = 1;
   });
 
   afterEach(() => {
@@ -31,15 +35,17 @@ describe('InputreaderService', () => {
 
   it('should test Read', () => {
     // given
+    let result: string = "";
     const mock: string = `aaa
-    bbbb
-    ccc`
+bbbb
+ccc`
 
     // when
-    service.read(1);
+    service.read(1).subscribe((res) => result = res);
     // then
-    const req = httpTestingController.expectOne('/assets/data/1.txt');
+    const req = httpTestingController.expectOne('assets/data/1.txt');
     expect(req.request.method).toEqual('GET');
     req.flush(mock);
+    expect(result.split('\n')).toEqual(["aaa", "bbbb", "ccc"]);
   });
 });
